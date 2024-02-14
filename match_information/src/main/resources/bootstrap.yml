@@ -1,0 +1,13 @@
+spring.cloud.vault:
+  scheme: http
+  host: localhost
+  port: 8200
+  authentication: token
+  token: hvs.issxM8XERICklLxuUPl2NCfc
+  kv:
+    enabled: true
+    backend: secret
+    default-context: finnet
+  application-name: finnet
+
+docker run --env=VAULT_LOCAL_CONFIG={"storage": { "file": { "path": "/vault/file" } }, "listener": [ { "tcp": { "address": "0.0.0.0:8200", "tls_disable": true } } ], "default_lease_ttl": "168h", "max_lease_ttl": "720h", "ui": true} --env=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin --volume=/vault/file --volume=/vault/logs --cap-add=IPC_LOCK -p 8200:8200 --restart=no --runtime=runc --network=my_network -d vault:1.13.3
