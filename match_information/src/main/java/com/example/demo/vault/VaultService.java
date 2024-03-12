@@ -1,15 +1,16 @@
 package com.example.demo.vault;
 
-import com.bettercloud.vault.VaultException;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.vault.VaultException;
 import org.springframework.vault.authentication.TokenAuthentication;
 import org.springframework.vault.client.VaultEndpoint;
 import org.springframework.vault.core.VaultTemplate;
 import org.springframework.vault.core.VaultVersionedKeyValueTemplate;
 
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -46,5 +47,9 @@ public class VaultService {
         VaultTemplate vaultTemplate = new VaultTemplate(vaultEndpoint, token);
         val data = vaultTemplate.read(path).getData();
         return data;
+    }
+
+    public List<Transaction> getContentFromDatabase() {
+        return repo.findAll();
     }
 }

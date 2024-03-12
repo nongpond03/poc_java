@@ -3,17 +3,18 @@ package com.example.demo;
 import com.example.demo.pgp.KeyBasedFileProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.Resource;
 
 @SpringBootApplication
-//@EnableBatchProcessing
+//@EnableConfigurationProperties({VaultConfig.class, VaultDatabaseConfig.class})
 public class DemoApplication implements CommandLineRunner {
     private Logger logger = LoggerFactory.getLogger(DemoApplication.class);
-
     @Value("classpath:output/sample.pgp")
     private Resource outputResource;
     @Value("classpath:files/sample.pgp")
@@ -22,6 +23,16 @@ public class DemoApplication implements CommandLineRunner {
     private Resource publicKeyResource;
     @Value("classpath:keys/0xA2EFEE7F-pri.pgp")
     private Resource privateKeyResource;
+    //@Value("${spring.cloud.vault.database.username-property}")
+    private String username;
+    //@Value("${spring.cloud.vault.database.password-property}")
+    private String password;
+
+    //@Autowired
+    //private VaultConfig vaultConfig;
+
+    @Autowired
+    private Environment env;
 
     public static void main(String[] args) {
         SpringApplication.run(DemoApplication.class, args);
@@ -38,10 +49,8 @@ public class DemoApplication implements CommandLineRunner {
         KeyBasedFileProcessor.decryptFile(inputFileName, privateKeyFileName, "password".toCharArray(), null);
         System.out.println("Successfully decrypted " + inputFileName);
 
-        //logger.info("Encrypting {}", inputFileName);
-        //System.out.println("Encrypting " + inputFileName);
-        //KeyBasedFileProcessor.encryptFile(outputFileName, inputFileName, publicKeyFileName, true, true);
-        //logger.info("Successfully encrypted {}", inputFileName);
-        //System.out.println("Successfully encrypted " + inputFileName);
+        System.out.println("username: " + username);
+        System.out.println("password: " + password);
+//        System.out.println("vault config username: " + vaultConfig.getUsername());
     }
 }

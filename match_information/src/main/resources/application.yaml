@@ -3,9 +3,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mysql://10.22.66.39:3306/prt?characterEncoding=UTF-8&allowPublicKeyRetrieval=true&useSSL=false
-    username: root
-    password: $0uthPark
+    url: jdbc:mysql://localhost:3306/set?characterEncoding=UTF-8&allowPublicKeyRetrieval=true&useSSL=false
     driver-class-name: com.mysql.cj.jdbc.Driver
     platform: mysql
     hikari:
