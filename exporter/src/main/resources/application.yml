@@ -1,0 +1,8 @@
+#server:
+#  port: 60000
+#  shutdown: graceful
+spring:
+  datasource:
+    url: jdbc:mysql://10.22.66.39:3306/paymentrealtimefcd2023?characterEncoding=UTF-8
+    username: root
+    password: $0uthPark
