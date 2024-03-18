@@ -23,7 +23,7 @@ public class ExportController {
 
     @GetMapping("/export")
     public ResponseEntity<Void> exportToExcel(HttpServletResponse response) throws IOException {
-        ByteArrayOutputStream outputStream = exportService.convertEntitiesToExcel("test", transactionRepository.findByEffectiveDate(LocalDate.now()));
+        ByteArrayOutputStream outputStream = exportService.convertEntitiesToExcel("test", transactionRepository.findByEffectiveDate(LocalDate.now()), transactionRepository.findByEffectiveDate(LocalDate.now()));
 
         response.setContentType("application/octet-stream");
         String headerKey = "Content-Disposition";

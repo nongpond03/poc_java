@@ -14,17 +14,27 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.stream.IntStream;
 
 @Slf4j
 @Service
 public class ExportService {
-    public ByteArrayOutputStream convertEntitiesToExcel(String filename, List<?> entities) throws IOException {
+    public ByteArrayOutputStream convertEntitiesToExcel(String filename, List<?>... entities) throws IOException {
         XSSFWorkbook workbook = new XSSFWorkbook();
-        Sheet sheet = workbook.createSheet(filename);
 
-        createHeader(sheet, entities);
-        createDataRow(sheet, entities);
-        autoSizeColumn(sheet, entities);
+        IntStream.range(0, entities.length).forEach(index -> {
+            Sheet sheet = workbook.createSheet(entities[index].get(0).getClass().getSimpleName() + index);
+            createHeader(sheet, entities[index]);
+            createDataRow(sheet, entities[index]);
+            autoSizeColumn(sheet, entities[index]);
+        });
+
+        //Stream.of(entities).forEach(e -> {
+        //    Sheet sheet = workbook.createSheet(e.get(0).getClass().getSimpleName() + Integer.toString(i.get()));
+        //    createHeader(sheet, e);
+        //    createDataRow(sheet, e);
+        //    autoSizeColumn(sheet, e);
+        //});
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         workbook.write(outputStream);
