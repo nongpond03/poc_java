@@ -48,7 +48,7 @@ public class Interceptor extends OncePerRequestFilter {
         filterChain.doFilter(cachedHttpServletRequest, cachedHttpServletResponse);
         cachedHttpServletResponse.flushBuffer();
 
-        LOGGER.info("RESPONSE DATA: " + new String(cachedHttpServletResponse.getCopy(), response.getCharacterEncoding()));
+        LOGGER.info("RESPONSE DATA: " + new String(cachedHttpServletResponse.getCopy(), StandardCharsets.UTF_8));
         LOGGER.info("PROCESS TIME: {} ms.", Duration.between(start, Instant.now()).toMillis());
     }
 

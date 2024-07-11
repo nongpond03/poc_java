@@ -1,4 +1,5 @@
 server:
+  port: 9091
   shutdown: graceful
 
 spring:
@@ -33,7 +34,7 @@ spring:
 demo:
   security:
     aes:
-      secretKey: "dTc9lqnpKiL6MlwS1ajZzphq9yh2lnZV"
+      secretKey: "hvs.z1J4SDR92UVi7KpQHAW2cGYD"
 
 log4j:
   configurationFile: /home/pond/set/test_java/match_information/src/main/resources/application.yaml

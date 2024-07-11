@@ -10,14 +10,20 @@ import org.springframework.stereotype.Service;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Service
 public class ExcelHelper {
-    public static Sheet readExcel(ByteArrayOutputStream input) throws IOException {
+    public static List<Sheet> readExcel(ByteArrayOutputStream input) throws IOException {
         XSSFWorkbook workbook = new XSSFWorkbook(new ByteArrayInputStream(input.toByteArray()));
-        return workbook.getSheetAt(0);
+        List<Sheet> l = new ArrayList<>();
+        for (int i = 0; i < workbook.getNumberOfSheets(); i++) {
+            l.add(workbook.getSheetAt(i));
+        }
+        return l;
     }
 
     public static void azzertEquals(Object[][] xData, Sheet sheet) {

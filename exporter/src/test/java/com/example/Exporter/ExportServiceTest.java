@@ -64,16 +64,18 @@ class ExportServiceTest {
                 .updatedDate(LocalDateTime.of(2023, 7, 22, 7, 1, 0))
                 .build();
         transactionList.add(first);
+        String xSheetName = "Transaction";
         Object[][] xData = {
                 {"id", "partiId", "agentCode", "effectiveDate", "fcdReferenceCode", "referenceCode", "merchantCode", "companyCode", "customerNo", "transactionType", "isFcd", "transferAmount", "currency", "sendingBankCode", "sendingBankAccountNo", "sendingBankAccountName", "sendingBankAccountTaxId", "receivingBankCode", "receivingBankAccountNo", "receivingBankAccountName", "receivingBankAccountTaxId", "botPurposeCode", "botPurposeName", "botPurposeValue", "statusCode", "successAmount", "createdDate", "updatedDate"},
                 {"22", "099", "099", "2024-03-15", "116p19t48a5vjw42", "20230721114728688", "TESTCOM", "22222", "121212", "C", "Y", Double.valueOf(2000.00), "THB", "006", "333", "James Bond", "7777", "006", "333", "James Bond", "7777", "999999", "interbank transfer", "999999", "56", Double.valueOf(1000.00), "2023-07-22T07:00:00", "2023-07-22T07:01:00"},
         };
 
         ByteArrayOutputStream resp = service.convertEntitiesToExcel("test", transactionList);
-        Sheet sheet = readExcel(resp);
+        List<Sheet> sheet = readExcel(resp);
 
-        assertEquals(xData.length, sheet.getPhysicalNumberOfRows(), "Number of rows doesn't match");
-        azzertEquals(xData, sheet);
+        assertEquals(xSheetName, sheet.get(0).getSheetName(), "Filename doesn't match");
+        assertEquals(xData.length, sheet.get(0).getPhysicalNumberOfRows(), "Number of rows doesn't match");
+        azzertEquals(xData, sheet.get(0));
     }
 
     @Test
@@ -141,28 +143,36 @@ class ExportServiceTest {
                 .build();
         transactionList.add(first);
         transactionList.add(second);
+        String xSheetName = "Transaction";
         Object[][] xData = {
                 {"id", "partiId", "agentCode", "effectiveDate", "fcdReferenceCode", "referenceCode", "merchantCode", "companyCode", "customerNo", "transactionType", "isFcd", "transferAmount", "currency", "sendingBankCode", "sendingBankAccountNo", "sendingBankAccountName", "sendingBankAccountTaxId", "receivingBankCode", "receivingBankAccountNo", "receivingBankAccountName", "receivingBankAccountTaxId", "botPurposeCode", "botPurposeName", "botPurposeValue", "statusCode", "successAmount", "createdDate", "updatedDate"},
-                {"22", "099", "099", "2024-03-15", "116p19t48a5vjw42", "20230721114728688", "TESTCOM", "22222", "121212", "C", "Y", Double.valueOf(2000.00), "THB", "006", "333", "James Bond", "7777", "006", "333", "James Bond", "7777", "999999", "interbank transfer", "999999", "56", Double.valueOf(1000.00), "2023-07-22T07:00:00", "2023-07-22T07:01:00"},
-                {"11", "099", "099", "2024-03-15", "116p19t48a5vjw42", "20230721114728688", "TESTCOM", "22222", "121212", "C", "Y", Double.valueOf(1000.00), "THB", "006", "333", "James Bond", "7777", "006", "333", "James Bond", "7777", "999999", "interbank transfer", "999999", "56", Double.valueOf(1000.01), "2023-07-22T07:00:12", "2023-07-22T07:01:12"},
+                {"22", "099", "099", "2024-03-18", "116p19t48a5vjw42", "20230721114728688", "TESTCOM", "22222", "121212", "C", "Y", Double.valueOf(2000.00), "THB", "006", "333", "James Bond", "7777", "006", "333", "James Bond", "7777", "999999", "interbank transfer", "999999", "56", Double.valueOf(1000.00), "2023-07-22T07:00:00", "2023-07-22T07:01:00"},
+                {"11", "099", "099", "2024-03-18", "116p19t48a5vjw42", "20230721114728688", "TESTCOM", "22222", "121212", "C", "Y", Double.valueOf(1000.00), "THB", "006", "333", "James Bond", "7777", "006", "333", "James Bond", "7777", "999999", "interbank transfer", "999999", "56", Double.valueOf(1000.01), "2023-07-22T07:00:12", "2023-07-22T07:01:12"},
         };
 
         ByteArrayOutputStream resp = service.convertEntitiesToExcel("test", transactionList);
-        Sheet sheet = readExcel(resp);
+        List<Sheet> sheet = readExcel(resp);
 
-        assertEquals(xData.length, sheet.getPhysicalNumberOfRows(), "Number of rows doesn't match");
-        azzertEquals(xData, sheet);
+        assertEquals(xSheetName, sheet.get(0).getSheetName(), "Filename doesn't match");
+        assertEquals(xData.length, sheet.get(0).getPhysicalNumberOfRows(), "Number of rows doesn't match");
+        azzertEquals(xData, sheet.get(0));
     }
 
     @Test
     void Convert_Empty_Entity_To_Excel_Correctly() throws IOException {
         List<Transaction> transactionList = new ArrayList<>();
-        Object[][] xData = {{}};
+        transactionList.add(Transaction.builder().build());
+        Object[][] xData = {
+                {"id", "partiId", "agentCode", "effectiveDate", "fcdReferenceCode", "referenceCode", "merchantCode", "companyCode", "customerNo", "transactionType", "isFcd", "transferAmount", "currency", "sendingBankCode", "sendingBankAccountNo", "sendingBankAccountName", "sendingBankAccountTaxId", "receivingBankCode", "receivingBankAccountNo", "receivingBankAccountName", "receivingBankAccountTaxId", "botPurposeCode", "botPurposeName", "botPurposeValue", "statusCode", "successAmount", "createdDate", "updatedDate"},
+                {},
+        };
+        String xSheetName = "Transaction";
 
         ByteArrayOutputStream resp = service.convertEntitiesToExcel("test", transactionList);
-        Sheet sheet = readExcel(resp);
+        List<Sheet> sheet = readExcel(resp);
 
-        assertEquals(xData.length, sheet.getPhysicalNumberOfRows(), "Number of rows doesn't match");
-        azzertEquals(xData, sheet);
+        assertEquals(xSheetName, sheet.get(0).getSheetName(), "Filename doesn't match");
+        assertEquals(xData.length, sheet.get(0).getPhysicalNumberOfRows(), "Number of rows doesn't match");
+        azzertEquals(xData, sheet.get(0));
     }
 }

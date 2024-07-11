@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Entity
 @Table(name = "transaction")
-public class Transaction {
+public class TransactionCredit {
     @Id
     private Long id;
     private String partiId;
