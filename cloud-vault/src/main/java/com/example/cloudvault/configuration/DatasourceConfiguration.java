@@ -1,11 +1,11 @@
-package com.example.cloudvault.config;
+package com.example.cloudvault.configuration;
 
-import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
 
-@Data
-@ConfigurationProperties("database")
-public class VaultConfig {
+@Configuration
+@ConfigurationProperties("spring.datasource")
+public class DatasourceConfiguration {
     private String username;
     private String password;
 

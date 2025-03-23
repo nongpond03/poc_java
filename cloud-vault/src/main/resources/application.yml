@@ -1,4 +1,16 @@
 spring:
+  cloud.vault:
+    uri: http://localhost:8200
+    token: root
+    connection-timeout: 5000
+    read-timeout: 15000
+    authentication: TOKEN
+    session.lifecycle:
+      enabled: true
+      refresh-before-expiry: 1296000s
+      expiry-threshold: 1296010s
+  config.import: vault://secret/odt/kv/payment/dev?prefix=vault.
   datasource:
-    username: ${username}
-    password: ${password}
+    url: #config
+    username: ${vault.username}
+    password: ${vault.password}
